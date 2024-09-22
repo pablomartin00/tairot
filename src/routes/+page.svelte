@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import MapComponent from '/app/src/components/MapComponent.svelte';
+	import MapComponent from '../components/MapComponent.svelte';
 
 	let showForm = true;
 	let messages = [];
