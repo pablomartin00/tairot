@@ -46,8 +46,10 @@
 				];
 				showForm = false;
 			} else {
-				console.error('Error fetching data:', response.statusText);
-				alert('Hubo un error al procesar tus datos. Por favor, intenta nuevamente.');
+				const errorData = await response.json(); // Captura el mensaje de error del servidor
+				console.error('Error fetching data:', errorData.error);
+				console.error('Backend URL:', errorData.backendUrl); // Muestra la URL del backend en consola
+				alert('Hubo un error al procesar tus datos: ' + errorData.error);
 			}
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -80,8 +82,10 @@
 				const responseData = await response.json();
 				messages = [...messages, { role: 'assistant', content: responseData.message }];
 			} else {
-				console.error('Error fetching data:', response.statusText);
-				messages = [...messages, { role: 'assistant', content: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta nuevamente.' }];
+				const errorData = await response.json(); // Captura el mensaje de error del servidor
+				console.error('Error fetching data:', errorData.error);
+				console.error('Backend URL:', errorData.backendUrl); // Muestra la URL del backend en consola
+				messages = [...messages, { role: 'assistant', content: 'Lo siento, hubo un error al procesar tu mensaje: ' + errorData.error }];
 			}
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -104,6 +108,7 @@
 		};
 	});
 </script>
+
 
 <svelte:head>
 	<title>Chatea con El Gran Tairot</title>
