@@ -1,7 +1,8 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+// Accede a las variables de entorno usando process.env
+const backendUrl = process.env.VITE_BACKEND_URL;
 
 export const POST: RequestHandler = async ({ request }) => {
     try {
