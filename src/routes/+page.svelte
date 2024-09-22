@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import MapComponent from '../components/MapComponent.svelte';
+    import { onMount } from 'svelte';
+    import MapComponent from '../components/MapComponent.svelte';
 
-	let showForm = true;
-	let messages = [];
-	let userMessage = '';
-	let userName = '';
-	let birthDate = '';
-	let coordinates = { lat: null, lng: null };
+    let showForm = true;
+    let messages = [];
+    let userMessage = '';
+    let userName = '';
+    let birthDate = '';
+    let coordinates = { lat: null, lng: null };
+    let backendUrl = import.meta.env.VITE_BACKEND_URL; // Agregado para depuración
 
 	function setCoordinates(event) {
 		coordinates = { lat: event.detail.latLng.lat, lng: event.detail.latLng.lng };
@@ -116,7 +117,8 @@
 </svelte:head>
 
 <section>
-	<h1>Chatea con El Gran Tairot</h1>
+	<h1>Chatea con El Gran Tairot</h1>	
+	<p>Backend URL: {backendUrl}</p> <!-- Agregado para depuración -->
 
 	{#if showForm}
 		<div class="form-container">
