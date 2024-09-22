@@ -1,0 +1,1 @@
+git commit -m "Primer commit: Tairot, astrologo virtual"
