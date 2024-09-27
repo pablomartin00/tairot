@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte';
 
-  export let zoom = 13;
-  export let center = [51.505, -0.09]; // Coordenadas por defecto (Londres)
+  // Coordenadas y nivel de zoom predeterminados
+  export let zoom = 10;
+  export let center = [-34.632158, -58.525342]; // Buenos Aires, Argentina
 
   let map;
   let marker;
@@ -10,35 +11,35 @@
 
   onMount(async () => {
     try {
-      console.log('Checking if #map element exists...');
+      // Verificar si el contenedor del mapa existe
       const mapElement = document.getElementById('map');
       if (!mapElement) {
         throw new Error('Map container not found.');
       }
-      console.log('#map element found:', mapElement);
 
-      console.log('Attempting to import Leaflet...');
+      // Cargar Leaflet de forma dinámica
       const L = await import('leaflet');
-      console.log('Leaflet imported successfully.');
 
+      // Inicializar el mapa en el contenedor con las coordenadas y el nivel de zoom
       map = L.map('map').setView(center, zoom);
-      console.log('Map initialized with center:', center, 'and zoom:', zoom);
 
+      // Añadir la capa del mapa de OpenStreetMap
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
       }).addTo(map);
 
-      map.invalidateSize(); // Forzar el redibujado del mapa
+      // Añadir un marcador en las coordenadas iniciales (center)
+      marker = L.marker(center).addTo(map);
 
+      // Manejar el evento de clic en el mapa
       map.on('click', handleMapClick);
-      console.log('Click event handler added.');
     } catch (error) {
       console.error('Error in onMount:', error);
     }
 
     return () => {
+      // Remover el mapa al destruir el componente
       if (map) {
-        console.log('Removing map...');
         map.remove();
       }
     };
@@ -46,16 +47,16 @@
 
   function handleMapClick(e) {
     const { lat, lng } = e.latlng;
-    console.log('Map clicked at:', lat, lng);
 
+    // Si ya hay un marcador, actualizar su posición
     if (marker) {
-      console.log('Updating existing marker.');
       marker.setLatLng([lat, lng]);
     } else {
-      console.log('Adding new marker.');
+      // Si no hay marcador, crearlo
       marker = L.marker([lat, lng]).addTo(map);
     }
 
+    // Despachar evento con las coordenadas del clic
     dispatch('click', {
       latLng: { lat, lng }
     });

@@ -7,8 +7,9 @@
     let userMessage = '';
     let userName = '';
     let birthDate = '';
-    let coordinates = { lat: null, lng: null };
-    let backendUrl = import.meta.env.VITE_BACKEND_URL; // Agregado para depuración
+    
+    // Coordenadas por defecto para Buenos Aires
+    let coordinates = { lat: -34.632158, lng: -58.525342 };
 
 	function setCoordinates(event) {
 		coordinates = { lat: event.detail.latLng.lat, lng: event.detail.latLng.lng };
@@ -47,9 +48,8 @@
 				];
 				showForm = false;
 			} else {
-				const errorData = await response.json(); // Captura el mensaje de error del servidor
+				const errorData = await response.json();
 				console.error('Error fetching data:', errorData.error);
-				console.error('Backend URL:', errorData.backendUrl); // Muestra la URL del backend en consola
 				alert('Hubo un error al procesar tus datos: ' + errorData.error);
 			}
 		} catch (error) {
@@ -83,9 +83,8 @@
 				const responseData = await response.json();
 				messages = [...messages, { role: 'assistant', content: responseData.message }];
 			} else {
-				const errorData = await response.json(); // Captura el mensaje de error del servidor
+				const errorData = await response.json();
 				console.error('Error fetching data:', errorData.error);
-				console.error('Backend URL:', errorData.backendUrl); // Muestra la URL del backend en consola
 				messages = [...messages, { role: 'assistant', content: 'Lo siento, hubo un error al procesar tu mensaje: ' + errorData.error }];
 			}
 		} catch (error) {
@@ -110,16 +109,15 @@
 	});
 </script>
 
-
 <svelte:head>
-	<title>Chatea con El Gran Tairot</title>
-	<meta name="description" content="Chatbot con El Gran Tairot" />
+	<title>Astrología Virtual con el Gran Tairot</title>
+	<meta name="description" content="Consulta astrológica virtual con El Gran Tairot" />
 </svelte:head>
 
 <section>
-	<h1>Chatea con El Gran Tairot</h1>	
-	<p>Backend URL: {backendUrl}</p> <!-- Agregado para depuración -->
+	<h1>Astrología Virtual con el Gran Tairot</h1>
 
+	
 	{#if showForm}
 		<div class="form-container">
 			<div class="input-row">
@@ -134,7 +132,7 @@
 			</div>
 			<div class="input-container">
 				<label>Indica tu lugar de nacimiento clickeando en el mapa:</label>
-				<MapComponent on:click={setCoordinates} style="width: 100%; height: 300px;" />
+				<MapComponent on:click={setCoordinates} center={coordinates} zoom={10} style="width: 100%; height: 300px;" />
 			</div>
 			<button on:click={startChat}>Comenzar consulta</button>
 		</div>
@@ -163,15 +161,20 @@
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
-		background: url('$lib/images/svelte-welcome.webp') no-repeat center center;
+		background: url('$lib/images/tairot.webp') no-repeat center center;
 		background-size: cover;
 		padding: 20px;
 	}
 
+	/* Estilos para el título */
 	h1 {
-		margin-bottom: 20px;
+		margin-bottom: 20px;  /* Mantiene el margen actual */
+		font-family: 'Poppins', sans-serif;  /* Nueva fuente */
+		color: white;  /* Color blanco para el texto */
+		font-size: 2.5rem;  /* Tamaño de fuente */
+		font-weight: 600;  /* Peso de la fuente */
+		text-align: center;  /* Centrar el texto */
 	}
-
 	.form-container, .chat-container {
 		width: 100%;
 		max-width: 600px;

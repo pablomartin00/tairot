@@ -20,4 +20,5 @@ RUN npm install
 EXPOSE 5173
 
 # Comando para ejecutar tu aplicación
-CMD ["npm", "run", "dev", "--", "--host"]
+#CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["tail", "-f", "/dev/null"]
