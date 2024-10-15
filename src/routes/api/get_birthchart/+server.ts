@@ -6,7 +6,8 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const POST: RequestHandler = async ({ request }) => {
     try {
-        const { user, birthDate, coordinates, token } = await request.json();
+        // Desestructurar birthDateTime de la solicitud
+        const { user, birthDateTime, coordinates, token } = await request.json();
 
         // Realiza la solicitud al backend desde el servidor
         const response = await fetch(`${backendUrl}/api/get_birthchart`, {
@@ -14,7 +15,7 @@ export const POST: RequestHandler = async ({ request }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ user, birthDate, coordinates, token })
+            body: JSON.stringify({ user, birthDateTime, coordinates, token }) // Usar birthDateTime directamente
         });
 
         if (!response.ok) {

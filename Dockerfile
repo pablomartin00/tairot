@@ -2,7 +2,7 @@
 FROM amazonlinux:2023
 
 # Establece el directorio de trabajo
-WORKDIR /app
+WORKDIR /apptmp
 
 # Instala Node.js, npm, y otras dependencias necesarias
 RUN yum update -y && \
